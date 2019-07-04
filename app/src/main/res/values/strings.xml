@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CarsFinder</string>
+    <string-array name="filters">
+        <item> ById</item>
+        <item>ByHp</item>
+        <item>ByModel</item>
+
+
+    </string-array>
 </resources>

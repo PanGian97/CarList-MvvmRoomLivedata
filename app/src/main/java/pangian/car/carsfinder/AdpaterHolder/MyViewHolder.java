@@ -22,7 +22,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     ImageButton favButton;
     ImageView imgView;
 
-    public MyViewHolder(@NonNull View itemView,final ItemClickListener itemClickListener) {
+    public MyViewHolder(@NonNull View itemView) {
 
         super(itemView);
         brandTxt = (TextView)itemView.findViewById(R.id.title);

@@ -16,6 +16,7 @@ public class CarViewModel extends AndroidViewModel {
     private LiveData<List<Car>> allCarsByHp;
     private LiveData<List<Car>> allCarsByModel;
 
+
     public CarViewModel(@NonNull Application application) {//difference is that we pass application in constructor
         //which we can use for whenever application context is needed
         //but we never store a context of an activity or a view that references an activity in ViewModel
@@ -25,13 +26,23 @@ public class CarViewModel extends AndroidViewModel {
 
         repository = new CarRepository(application);
 
-        allCars = repository.getAllCars();//so the activity will have  a reference to viewmodel only and not the repository
+       // allCars = repository.getAllCars();//so the activity will have  a reference to viewmodel only and not the repository
         allCarsByHp = repository.getAllCarsByHp();
         allCarsByModel = repository.getAllCarsByModel();
+
+        allCars = repository.loadAllCars();
     }
-    public LiveData<List<Car>> getAllNotes(){
+
+
+
+    public LiveData<List<Car>> getGetAllCarsByHp() {
+        return allCarsByHp;
+    }
+
+    public LiveData<List<Car>> getGetAllCarsByModel() {
+        return allCarsByModel;
+    }
+    public LiveData<List<Car>> getAllCars(){
         return allCars;
     }
-    public LiveData<List<Car>> getGetAllCarsByHp(){return allCarsByHp;}
-    public LiveData<List<Car>> getGetAllCarsByModel(){return allCarsByModel;}
 }

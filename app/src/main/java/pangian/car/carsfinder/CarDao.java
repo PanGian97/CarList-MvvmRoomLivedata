@@ -14,7 +14,7 @@ import java.util.List;
 
 @Dao
 public interface CarDao {
-//    @Insert
+    //    @Insert
 //        //we annotate it with the coresponding DB operation
 //    void insert (Car car);
 //
@@ -26,7 +26,8 @@ public interface CarDao {
 //
 //    @Query("DELETE FROM car_table")
 //    void deleteAllNotes();
-
+    @Insert
+    void insertAll(List<Car> carList);
 
     //SORTING ORDER
     @Query("SELECT * FROM car_table ORDER BY id ASC")
