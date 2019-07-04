@@ -1,4 +1,4 @@
-package pangian.car.carsfinder;
+package pangian.car.carsfinder.MVVM;
 
 import android.app.Application;
 
@@ -7,6 +7,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+
+import pangian.car.carsfinder.Car;
+import pangian.car.carsfinder.CarRepository;
 
 public class CarViewModel extends AndroidViewModel {
 
