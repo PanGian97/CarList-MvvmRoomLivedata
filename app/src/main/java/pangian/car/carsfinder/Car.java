@@ -9,7 +9,11 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "car_table")
 public class Car {//ROOM will generate columns for these fields
 
+
+
     @PrimaryKey(autoGenerate = true)
+    private int auto_id;
+
     private String id;
 
     private String cc;
@@ -31,6 +35,7 @@ public class Car {//ROOM will generate columns for these fields
 
 
     public Car(String id, String brand, String model, String type, String cc, String gears, String horsepower, String url) {
+
         this.cc = cc;
         this.horsepower = horsepower;
         this.model = model;
@@ -40,6 +45,14 @@ public class Car {//ROOM will generate columns for these fields
         this.gears = gears;
         this.url = url;
         isFavorite=false;
+    }
+
+    public int getAuto_id() {
+        return auto_id;
+    }
+
+    public void setAuto_id(int auto_id) {
+        this.auto_id = auto_id;
     }
 
     public String getId ()

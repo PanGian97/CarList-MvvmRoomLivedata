@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -26,9 +27,10 @@ public interface CarDao {
 //
 //    @Query("DELETE FROM car_table")
 //    void deleteAllNotes();
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Car> carList);
-
+   @Update
+   void updateAll(List<Car> carList);
     //SORTING ORDER
     @Query("SELECT * FROM car_table ORDER BY id ASC")
     LiveData<List<Car>> getAllCars();

@@ -1,24 +1,27 @@
 package pangian.car.carsfinder.MVVM;
 
 import android.app.Application;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.List;
 
 import pangian.car.carsfinder.Car;
 import pangian.car.carsfinder.CarRepository;
+import pangian.car.carsfinder.MainActivity;
+import pangian.car.carsfinder.R;
 
 public class CarViewModel extends AndroidViewModel {
 
+
     private CarRepository repository;
 
-    private LiveData<List<Car>> allCars;
-    private LiveData<List<Car>> allCarsByHp;
-    private LiveData<List<Car>> allCarsByModel;
-
+    private MediatorLiveData<List<Car>> dataMerger = new MediatorLiveData<List<Car>>();
 
     public CarViewModel(@NonNull Application application) {//difference is that we pass application in constructor
         //which we can use for whenever application context is needed
@@ -27,25 +30,53 @@ public class CarViewModel extends AndroidViewModel {
         //we have a memory leak
         super(application);
 
+
         repository = new CarRepository(application);
 
        // allCars = repository.getAllCars();//so the activity will have  a reference to viewmodel only and not the repository
-        allCarsByHp = repository.getAllCarsByHp();
-        allCarsByModel = repository.getAllCarsByModel();
 
-        allCars = repository.loadAllCars();
     }
 
 
 
     public LiveData<List<Car>> getGetAllCarsByHp() {
-        return allCarsByHp;
+        return repository.getAllCarsByHp();
     }
-
     public LiveData<List<Car>> getGetAllCarsByModel() {
-        return allCarsByModel;
+        return repository.getAllCarsByModel();
     }
     public LiveData<List<Car>> getAllCars(){
-        return allCars;
+        return  repository.loadAllCars(); }
+
+
+
+    public void carSortBy(int position) {
+        switch (position){
+            case 0:defaultListSorter();break;
+            case 1:listSorterByHp();break;
+            case 2:listSorterByModel();break;
+        }
+    }
+
+
+    public void defaultListSorter() {
+        getAllCars();
+        getDataMerger().addSource(getAllCars(),cars ->getDataMerger().setValue(cars));
+        dataMerger.removeSource(getAllCars());
+    }
+    public void listSorterByHp() {
+        getGetAllCarsByHp();
+        getDataMerger().addSource(getGetAllCarsByHp(),cars ->getDataMerger().setValue(cars));
+        dataMerger.removeSource(getGetAllCarsByHp());
+    }
+    public void listSorterByModel() {
+        getGetAllCarsByModel();
+        getDataMerger().addSource(getGetAllCarsByModel(),cars ->getDataMerger().setValue(cars));
+        dataMerger.removeSource(getGetAllCarsByModel());
+    }
+
+
+    public MediatorLiveData<List<Car>> getDataMerger() {
+        return dataMerger;
     }
 }

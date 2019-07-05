@@ -37,10 +37,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         Car currentNote = cars.get(position);
         holder.brandTxt.setText(currentNote.getBrand());
         holder.modelTxt.setText(currentNote.getModel());
-        holder.typeTxt.setText(currentNote.getModel());
-        holder.ccTxt.setText(currentNote.getModel());
-        holder.gearsTxt.setText(currentNote.getModel());
-        holder.hpTxt.setText(currentNote.getModel());
+        holder.typeTxt.setText(currentNote.getType());
+        holder.ccTxt.setText(currentNote.getCc());
+        holder.gearsTxt.setText(currentNote.getGears());
+        holder.hpTxt.setText(currentNote.getHorsepower());
 
 
         String carImgUrl = cars.get(position).getUrl();

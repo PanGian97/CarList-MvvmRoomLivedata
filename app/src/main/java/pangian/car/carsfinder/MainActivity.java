@@ -7,7 +7,10 @@ import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.transform.sax.TemplatesHandler;
 
 import pangian.car.carsfinder.MVVM.CarView;
 import pangian.car.carsfinder.MVVM.CarViewModel;
@@ -19,14 +22,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(carView.getRootView());
-        carView = new CarView(LayoutInflater.from(this),null);
+
+
 
         carViewModel = ViewModelProviders.of(this).get(CarViewModel.class);//it will destroy it when activity is destroyed
-        carViewModel.getAllCars().observe(this, new Observer<List<Car>>() {
+
+        carView = new CarView(LayoutInflater.from(this),null,carViewModel);
+        setContentView(carView.getRootView());
+
+
+        carViewModel.getDataMerger().observe(this, new Observer<List<Car>>() {
             @Override
-            public void onChanged(List<Car> cars) {
-              carView.adapter.setCars(cars);
+            public void onChanged(List<Car> carList) {
+                carView.adapter.setCars(carList);
             }
         });
     }
@@ -34,10 +42,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
     }
+
+
+
+
 }
