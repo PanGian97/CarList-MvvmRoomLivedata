@@ -60,19 +60,19 @@ public class CarViewModel extends AndroidViewModel {
 
 
     public void defaultListSorter() {
-        getAllCars();
+
         getDataMerger().addSource(getAllCars(),cars ->getDataMerger().setValue(cars));
-        dataMerger.removeSource(getAllCars());
+      //  dataMerger.removeSource(getAllCars());
     }
     public void listSorterByHp() {
-        getGetAllCarsByHp();
+
         getDataMerger().addSource(getGetAllCarsByHp(),cars ->getDataMerger().setValue(cars));
-        dataMerger.removeSource(getGetAllCarsByHp());
+      //  dataMerger.removeSource(getGetAllCarsByHp());
     }
     public void listSorterByModel() {
-        getGetAllCarsByModel();
+
         getDataMerger().addSource(getGetAllCarsByModel(),cars ->getDataMerger().setValue(cars));
-        dataMerger.removeSource(getGetAllCarsByModel());
+       // dataMerger.removeSource(getGetAllCarsByModel());
     }
 
 

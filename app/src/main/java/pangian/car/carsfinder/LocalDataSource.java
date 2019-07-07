@@ -7,27 +7,18 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.security.auth.callback.Callback;
+
 public class LocalDataSource {
     private CarDao carDao;
-    List<Car> carListFromDb = new ArrayList<>();
+
 
     public LocalDataSource(CarDao carDao) {
         this.carDao = carDao;
 
     }
 
-
-//    public boolean hasDataChanged(List<Car> carList) {
-//
-//
-//        if(carList!=carListFromDb){
-//        return true;}
-//        else{
-//            return false;}
-//    }
-
     public void save(List<Car> carList) {
-
         new SaveToDbASyncTask(carDao,carList ).execute();//?
     }
 
@@ -47,9 +38,10 @@ public class LocalDataSource {
         protected Void doInBackground(Void... voids) {
 
             carDao.insertAll(carList);
-
             return null;
         }
+
+
     }
 }
 

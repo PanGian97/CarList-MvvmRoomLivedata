@@ -61,13 +61,10 @@ public class CarRepository {
                  public void onResponse(Call<List<Car>> call, Response<List<Car>> response) {
                      List<Car> carList = response.body();
                      if (carList != null) {
-                         mutableLiveData.setValue(carList);//mutableLiveData gets a list from server(Comment cause we will need it in case only if we dont want to store it)
-                         List<Car> carListFromServer = mutableLiveData.getValue();
-                   //      if(localDataSource.hasDataChanged(carListFromServer)) {
-                             localDataSource.save(carListFromServer);
-                         }
+
+                             localDataSource.save(carList);
                      }
-                 //}
+                 }
 
                  @Override
                  public void onFailure(Call<List<Car>> call, Throwable t) {
