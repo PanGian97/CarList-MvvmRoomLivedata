@@ -27,7 +27,7 @@ public interface CarDao {
 //
 //    @Query("DELETE FROM car_table")
 //    void deleteAllNotes();
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     void insertAll(List<Car> carList);
 
     @Update

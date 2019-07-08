@@ -39,15 +39,14 @@ public class CarViewModel extends AndroidViewModel {
 
 
 
-    public LiveData<List<Car>> loadCars(){return repository.loadAllCars();}
-
     public LiveData<List<Car>> getGetAllCarsByHp() {
         return repository.getAllCarsByHp();
     }
     public LiveData<List<Car>> getGetAllCarsByModel() {
         return repository.getAllCarsByModel();
     }
-    public LiveData<List<Car>> getAllCars(){ return  repository.getAllCars(); }
+    public LiveData<List<Car>> getAllCars(){
+        return  repository.loadAllCars(); }
 
 
 
@@ -61,16 +60,19 @@ public class CarViewModel extends AndroidViewModel {
 
 
     public void defaultListSorter() {
+        getAllCars();
         getDataMerger().addSource(getAllCars(),cars ->getDataMerger().setValue(cars));
-        //dataMerger.removeSource(getAllCars());
+        dataMerger.removeSource(getAllCars());
     }
     public void listSorterByHp() {
+        getGetAllCarsByHp();
         getDataMerger().addSource(getGetAllCarsByHp(),cars ->getDataMerger().setValue(cars));
-       // dataMerger.removeSource(getGetAllCarsByHp());
+        dataMerger.removeSource(getGetAllCarsByHp());
     }
     public void listSorterByModel() {
+        getGetAllCarsByModel();
         getDataMerger().addSource(getGetAllCarsByModel(),cars ->getDataMerger().setValue(cars));
-        //dataMerger.removeSource(getGetAllCarsByModel());
+        dataMerger.removeSource(getGetAllCarsByModel());
     }
 
 

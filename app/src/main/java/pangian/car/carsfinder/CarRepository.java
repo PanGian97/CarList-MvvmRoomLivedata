@@ -25,6 +25,8 @@ public class CarRepository {
     CarDao carDao;
 
 
+    private MutableLiveData<List<Car>> mutableLiveData = new MutableLiveData<>();
+
     public CarRepository(Application application) {
 
         networkChecker = new NetworkChecker(application);//?
@@ -47,6 +49,7 @@ public class CarRepository {
         return carDao.getAllCarsByModel();
     }
 
+
     public LiveData<List<Car>> loadAllCars() {
      if(networkChecker.isNetworkAvailable()) {
 
@@ -58,16 +61,21 @@ public class CarRepository {
                  public void onResponse(Call<List<Car>> call, Response<List<Car>> response) {
                      List<Car> carList = response.body();
                      if (carList != null) {
-
-                             localDataSource.save(carList);
+                         mutableLiveData.setValue(carList);//mutableLiveData gets a list from server(Comment cause we will need it in case only if we dont want to store it)
+                         List<Car> carListFromServer = mutableLiveData.getValue();
+                   //      if(localDataSource.hasDataChanged(carListFromServer)) {
+                             localDataSource.save(carListFromServer);
                          }
                      }
+                 //}
 
                  @Override
                  public void onFailure(Call<List<Car>> call, Throwable t) {
 
                  }
              });
+
+
 
          return getAllCars();
      }
