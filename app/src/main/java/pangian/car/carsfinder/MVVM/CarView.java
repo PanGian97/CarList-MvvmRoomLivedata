@@ -58,6 +58,8 @@ public class CarView {
         adapter = new MyAdapter();
         rv.setAdapter(adapter);
 
+        carViewModel.loadCars();
+
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(),R.array.filters,R.layout.spinner_selected_text_color);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_item_color);
 

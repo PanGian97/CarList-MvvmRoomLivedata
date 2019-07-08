@@ -45,11 +45,11 @@ public class LocalDataSource {
 
         @Override
         protected Void doInBackground(Void... voids) {
-
-            carDao.insertAll(carList);
-
+                carDao.deleteAll();
+                carDao.insertAll(carList);
             return null;
         }
+
     }
 }
 
