@@ -31,17 +31,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(carView.getRootView());
 
 
-        carViewModel.getDataMerger().observe(this, new Observer<List<Car>>() {
-            @Override
-            public void onChanged(List<Car> carList) {
-                carView.adapter.setCars(carList);
-            }
-        });
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        carViewModel.saveCarsFromServer();
+        carViewModel.getDataMerger().observe(this, new Observer<List<Car>>() {
+            @Override
+            public void onChanged(List<Car> carList) {
+                carView.render(carList);
+            }
+        });
 
     }
 

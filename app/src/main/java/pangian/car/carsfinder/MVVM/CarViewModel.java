@@ -1,20 +1,16 @@
 package pangian.car.carsfinder.MVVM;
 
 import android.app.Application;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.Observer;
 
 import java.util.List;
 
 import pangian.car.carsfinder.Car;
 import pangian.car.carsfinder.CarRepository;
-import pangian.car.carsfinder.MainActivity;
-import pangian.car.carsfinder.R;
 
 public class CarViewModel extends AndroidViewModel {
 
@@ -37,16 +33,16 @@ public class CarViewModel extends AndroidViewModel {
 
     }
 
-
-
+    public void saveCarsFromServer() {
+         repository.saveCarsFromServer();
+    }
     public LiveData<List<Car>> getGetAllCarsByHp() {
         return repository.getAllCarsByHp();
     }
     public LiveData<List<Car>> getGetAllCarsByModel() {
         return repository.getAllCarsByModel();
     }
-    public LiveData<List<Car>> getAllCars(){
-        return  repository.loadAllCars(); }
+    public LiveData<List<Car>> getAllCars(){ return  repository.getAllCars(); }
 
 
 
@@ -59,20 +55,23 @@ public class CarViewModel extends AndroidViewModel {
     }
 
 
+
+
+
     public void defaultListSorter() {
-        getAllCars();
+
         getDataMerger().addSource(getAllCars(),cars ->getDataMerger().setValue(cars));
-        dataMerger.removeSource(getAllCars());
+
     }
     public void listSorterByHp() {
-        getGetAllCarsByHp();
+
         getDataMerger().addSource(getGetAllCarsByHp(),cars ->getDataMerger().setValue(cars));
-        dataMerger.removeSource(getGetAllCarsByHp());
+
     }
     public void listSorterByModel() {
         getGetAllCarsByModel();
         getDataMerger().addSource(getGetAllCarsByModel(),cars ->getDataMerger().setValue(cars));
-        dataMerger.removeSource(getGetAllCarsByModel());
+
     }
 
 

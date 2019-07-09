@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pangian.car.carsfinder.AdpaterHolder.MyAdapter;
 import pangian.car.carsfinder.Car;
@@ -50,15 +51,13 @@ public class CarView {
         RecyclerView rv = (RecyclerView) findViewById(R.id.recyclerView);
 
         linearTransContainer=(LinearLayout)findViewById(R.id.linear_layout);
-        //swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
 
 
         layoutManager = new LinearLayoutManager(getContext());
         rv.setLayoutManager(layoutManager);
         adapter = new MyAdapter();
         rv.setAdapter(adapter);
-
-        carViewModel.loadCars();
 
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(),R.array.filters,R.layout.spinner_selected_text_color);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_item_color);
@@ -77,6 +76,14 @@ public class CarView {
             }
         });
 
+      swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+          @Override
+          public void onRefresh() {
+           carViewModel.saveCarsFromServer();
+
+
+          }
+      });
     }
 
     private View.OnClickListener myClickListener = new View.OnClickListener() {
@@ -90,10 +97,7 @@ public class CarView {
         }
     };
 
-    public void swipeRefreshState(boolean state){
-        if(state)swipeContainer.setRefreshing(false);
-        else swipeContainer.setRefreshing(true);
-    }
+
 
     private Context getContext() {
         return getRootView().getContext();
@@ -106,6 +110,14 @@ public class CarView {
 
     public View getRootView() {
         return rootView;
+    }
+
+    public void render(List<Car> carList) {
+
+        if(swipeContainer.isRefreshing()) {
+            swipeContainer.setRefreshing(false);
+        }
+        adapter.setCars(carList);
     }
 //    public void goToFavorites() {
 //        Intent intent = new Intent(getContext(), FavActivity.class);

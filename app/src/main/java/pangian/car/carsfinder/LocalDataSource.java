@@ -9,22 +9,13 @@ import java.util.List;
 
 public class LocalDataSource {
     private CarDao carDao;
-    List<Car> carListFromDb = new ArrayList<>();
+
 
     public LocalDataSource(CarDao carDao) {
         this.carDao = carDao;
 
     }
 
-
-//    public boolean hasDataChanged(List<Car> carList) {
-//
-//
-//        if(carList!=carListFromDb){
-//        return true;}
-//        else{
-//            return false;}
-//    }
 
     public void save(List<Car> carList) {
 
@@ -36,19 +27,26 @@ public class LocalDataSource {
     private static class SaveToDbASyncTask extends AsyncTask<Void, Void, Void> {
         private CarDao carDao;
         private List<Car> carList;
+
+
         private SaveToDbASyncTask(CarDao carDaoDb, final List<Car> carList) {
             carDao = carDaoDb;
             this.carList=carList;
-
-
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-
+            carDao.deleteAll();
             carDao.insertAll(carList);
 
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+
         }
     }
 }
