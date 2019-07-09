@@ -15,18 +15,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pangian.car.carsfinder.Car;
+import pangian.car.carsfinder.CarClickListener;
 import pangian.car.carsfinder.R;
 
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     private static final String TAG = "MyAdapter";
+    private final CarClickListener clickListener;
     private List<Car> cars = new ArrayList<>();
+
+    public MyAdapter(CarClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.car_item, parent, false);
-        return new MyViewHolder(itemView);
+
+        return new MyViewHolder(itemView, clickListener);
 
 
     }
@@ -42,6 +49,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         holder.gearsTxt.setText(currentNote.getGears());
         holder.hpTxt.setText(currentNote.getHorsepower());
 
+        holder.setCar(currentNote);
 
         String carImgUrl = cars.get(position).getUrl();
 

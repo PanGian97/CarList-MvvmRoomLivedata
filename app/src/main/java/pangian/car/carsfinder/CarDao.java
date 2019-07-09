@@ -15,9 +15,7 @@ import java.util.List;
 
 @Dao
 public interface CarDao {
-    //    @Insert
-//        //we annotate it with the coresponding DB operation
-//    void insert (Car car);
+
 //
 //    @Update
 //    void update(Car car);
@@ -41,9 +39,17 @@ public interface CarDao {
     @Query("SELECT * FROM car_table ORDER BY id ASC")
     LiveData<List<Car>> getAllCars();
 
-    @Query("SELECT * FROM car_table ORDER BY horsepower ASC")
+    @Query("SELECT * FROM car_table ORDER BY horsepower  ASC")
     LiveData<List<Car>> getAllCarsByHp();
 
     @Query("SELECT * FROM car_table ORDER BY model ASC")
     LiveData<List<Car>> getAllCarsByModel();
+
+
+    @Query("SELECT * FROM car_table WHERE isFavorite='true' ORDER BY id ASC")
+    LiveData<List<Car>> getAllFavCars();
+
+    @Query("UPDATE car_table SET isFavorite='true' WHERE id=:carId")
+    void favoriteCar(int carId)  ;
+
 }

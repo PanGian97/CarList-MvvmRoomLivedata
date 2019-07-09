@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        carViewModel.getAllFavCars().observe(this, new Observer<List<Car>>() {
+            @Override
+            public void onChanged(List<Car> carList) {
+                Toast.makeText(MainActivity.this, "Favorites Updated: "+carList.size(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

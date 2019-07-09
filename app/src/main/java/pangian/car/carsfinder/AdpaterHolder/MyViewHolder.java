@@ -8,7 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import pangian.car.carsfinder.ItemClickListener;
+import pangian.car.carsfinder.Car;
+import pangian.car.carsfinder.CarClickListener;
 import pangian.car.carsfinder.R;
 
 public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -21,8 +22,9 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     TextView hpTxt;
     ImageButton favButton;
     ImageView imgView;
+    private Car car;
 
-    public MyViewHolder(@NonNull View itemView) {
+    public MyViewHolder(@NonNull View itemView , CarClickListener carClickListener) {
 
         super(itemView);
         brandTxt = (TextView)itemView.findViewById(R.id.title);
@@ -34,15 +36,15 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         hpTxt=(TextView)itemView.findViewById(R.id.hp);
         favButton=(ImageButton)itemView.findViewById(R.id.add_to_fav);
 
+        favButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    carClickListener.onCarClicked(car);
+            }
+        });
+    }
 
-//        MAYBE NOT BE USED FOR SOMETHING
-//        favButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                itemClickListener.onItemClick(getAdapterPosition(),favButton);
-//
-//
-//            }
-//        });
+    public void setCar(Car car) {
+        this.car = car;
     }
 }

@@ -1,7 +1,6 @@
 package pangian.car.carsfinder.MVVM;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import pangian.car.carsfinder.AdpaterHolder.MyAdapter;
 import pangian.car.carsfinder.Car;
-import pangian.car.carsfinder.CarDao;
+import pangian.car.carsfinder.CarClickListener;
 import pangian.car.carsfinder.R;
 
-public class CarView {
+public class CarView implements CarClickListener {
 
     private CarViewModel carViewModel;
 
@@ -56,7 +54,7 @@ public class CarView {
 
         layoutManager = new LinearLayoutManager(getContext());
         rv.setLayoutManager(layoutManager);
-        adapter = new MyAdapter();
+        adapter = new MyAdapter(this);
         rv.setAdapter(adapter);
 
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(),R.array.filters,R.layout.spinner_selected_text_color);
@@ -91,13 +89,17 @@ public class CarView {
         public void onClick(View v) {
            switch (v.getId()){
                case R.id.add_to_fav:
-
+             carViewModel.goToFavorites();
                    break;
            }
         }
     };
 
 
+    @Override
+    public void onCarClicked(Car car) {
+       carViewModel.updateFavoriteStatus(car);
+    }
 
     private Context getContext() {
         return getRootView().getContext();
@@ -119,6 +121,8 @@ public class CarView {
         }
         adapter.setCars(carList);
     }
+
+
 //    public void goToFavorites() {
 //        Intent intent = new Intent(getContext(), FavActivity.class);
 //        getContext().startActivity(intent);

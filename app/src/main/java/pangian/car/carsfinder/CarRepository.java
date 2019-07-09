@@ -2,6 +2,7 @@ package pangian.car.carsfinder;
 
 import android.app.Application;
 import android.location.Location;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -16,6 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CarRepository {
+
 
     CarDatabase database;
     NetworkChecker networkChecker;
@@ -46,6 +48,8 @@ public class CarRepository {
         return carDao.getAllCarsByModel();
     }
 
+    public LiveData<List<Car>> getAllFavCars(){return  carDao.getAllFavCars();}
+
 
     public void saveCarsFromServer() {
      if(networkChecker.isNetworkAvailable()) {
@@ -73,7 +77,23 @@ public class CarRepository {
      }
     }
 
+    public void updateFavoriteStatus(Car car) {
+        new UpdateCarAsyncTask(carDao).execute(car);
+    }
 
+    private static class UpdateCarAsyncTask extends AsyncTask<Car, Void, Void> {
+        private CarDao carDao;
+
+        private UpdateCarAsyncTask(CarDao carDao) {
+            this.carDao = carDao;
+        }
+
+        @Override
+        protected Void doInBackground(Car... cars) {
+            carDao.favoriteCar(cars[0].getAuto_id());
+            return null;
+        }
+    }
 
 
 }
