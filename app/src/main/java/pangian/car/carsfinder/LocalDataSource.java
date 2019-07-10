@@ -39,6 +39,7 @@ public class LocalDataSource {
             carDao.deleteAll();
             carDao.insertAll(carList);
 
+
             return null;
         }
 

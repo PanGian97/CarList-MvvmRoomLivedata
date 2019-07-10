@@ -18,6 +18,14 @@ public class CarViewModel extends AndroidViewModel {
     private final LiveData<List<Car>> byId;
     private final LiveData<List<Car>> byHp;
     private final LiveData<List<Car>> byModel;
+    private final LiveData<List<Car>> favbyId;
+    private final LiveData<List<Car>> favbyHp;
+    private final LiveData<List<Car>> favbyModel;
+
+
+    public static final int ALL_CARS=0;
+    public static final int FAV_CARS=1;
+
     private CarRepository repository;
 
     private MediatorLiveData<List<Car>> dataMerger = new MediatorLiveData<List<Car>>();
@@ -36,9 +44,12 @@ public class CarViewModel extends AndroidViewModel {
 
         repository = new CarRepository(application);
 
-        byId = repository.getAllCars();//so the activity will have  a reference to viewmodel only and not the repository
+        byId = repository.getAllCars();
         byHp = repository.getAllCarsByHp();
         byModel = repository.getAllCarsByModel();
+        favbyId = repository.getAllFavCars();
+        favbyHp = repository.getAllFavCarsByHp();
+        favbyModel = repository.getAllFavCarsByModel();
     }
 
     public void saveCarsFromServer() {
@@ -46,43 +57,47 @@ public class CarViewModel extends AndroidViewModel {
     }
 
 
-    public void carSortBy(int position) {
+    public void carSortBy(int position, int state) {
 
-        resetSources();
+        if (state==0)resetSources(0);
+        else if(state==1)resetSources(1);
 
         switch (position){
-            case 0:defaultListSorter();break;
-            case 1:listSorterByHp();break;
-            case 2:listSorterByModel();break;
+            case 0:defaultListSorter(state);break;
+            case 1:listSorterByHp(state);break;
+            case 2:listSorterByModel(state);break;
         }
     }
 
-    private void resetSources() {
-        getDataMerger().removeSource(byId);
-        getDataMerger().removeSource(byModel);
-        getDataMerger().removeSource(byHp);
+    private void resetSources(int selectedSortedList) {
+        if(selectedSortedList==0) {
+            getDataMerger().removeSource(byId);
+            getDataMerger().removeSource(byModel);
+            getDataMerger().removeSource(byHp);
+        }else if(selectedSortedList== 1){
+            getDataMerger().removeSource(favbyId);
+            getDataMerger().removeSource(favbyModel);
+            getDataMerger().removeSource(favbyHp);
+        }
     }
 
 
-    public void defaultListSorter() {
-        getDataMerger().addSource(byId,cars ->
-                getDataMerger().setValue(cars));
+    public void defaultListSorter(int state) {
+        if(state==0)
+        getDataMerger().addSource(byId,cars -> getDataMerger().setValue(cars));
+        else if(state==1)
+            getDataMerger().addSource(favbyId,cars -> getDataMerger().setValue(cars));
     }
 
-    public void listSorterByHp() {
+    public void listSorterByHp(int state) {
 
-        getDataMerger().addSource(byHp,cars ->
-                getDataMerger().setValue(cars));
-
+       if(state==0) getDataMerger().addSource(byHp,cars -> getDataMerger().setValue(cars));
+        else if(state==1)getDataMerger().addSource(favbyHp,cars -> getDataMerger().setValue(cars));
     }
 
-    public void listSorterByModel() {
-
-        getDataMerger().addSource(byModel,
-                cars ->
-                        getDataMerger().setValue(cars));
-
-
+    public void listSorterByModel(int state) {
+       if(state==0) getDataMerger().addSource(byModel, cars -> getDataMerger().setValue(cars));
+       else if (state==1) getDataMerger().addSource(favbyModel, cars -> getDataMerger().setValue(cars));
     }
 
 
@@ -90,10 +105,16 @@ public class CarViewModel extends AndroidViewModel {
         return dataMerger;
     }
 
-    public void goToFavorites() {
-    }
+
 
     public void updateFavoriteStatus(Car car) {
         repository.updateFavoriteStatus(car);
+    }
+public void selectedListToBeSorted(int position,int selectedList){
+ if(selectedList==ALL_CARS) {
+        carSortBy(position, ALL_CARS);
+    }else if(selectedList==FAV_CARS) {
+    carSortBy(position, FAV_CARS);
+ }
     }
 }

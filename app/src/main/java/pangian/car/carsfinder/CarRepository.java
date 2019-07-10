@@ -37,18 +37,20 @@ public class CarRepository {
     }
 
     public LiveData<List<Car>> getAllCars() {
-        return carDao.getAllCars();
+        return carDao.getAllCars(false);
     }
-
-    public LiveData<List<Car>> getAllCarsByHp() {
-        return carDao.getAllCarsByHp();
+    public LiveData<List<Car>> getAllFavCars() {
+        return carDao.getAllCars(true);
     }
-
+    public LiveData<List<Car>> getAllCarsByHp() { return carDao.getAllCarsByHp(false); }
+    public LiveData<List<Car>> getAllFavCarsByHp() { return carDao.getAllCarsByHp(true); }
     public LiveData<List<Car>> getAllCarsByModel() {
-        return carDao.getAllCarsByModel();
+        return carDao.getAllCarsByModel(false);
+    }
+    public LiveData<List<Car>> getAllFavCarsByModel() {
+        return carDao.getAllCarsByModel(true);
     }
 
-    public LiveData<List<Car>> getAllFavCars(){return  carDao.getAllFavCars();}
 
 
     public void saveCarsFromServer() {
@@ -63,6 +65,7 @@ public class CarRepository {
                      List<Car> carList = response.body();
                      if (carList != null) {
                              localDataSource.save(carList);
+
 
                          }
 

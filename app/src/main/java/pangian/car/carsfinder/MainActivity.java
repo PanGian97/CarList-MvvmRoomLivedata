@@ -19,7 +19,7 @@ import pangian.car.carsfinder.MVVM.CarViewModel;
 public class MainActivity extends AppCompatActivity {
     private  CarView carView;
     private CarViewModel carViewModel;
-
+    private static final int ALL_CARS=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Favorites Updated: "+carList.size(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override

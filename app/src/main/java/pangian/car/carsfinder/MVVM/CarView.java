@@ -36,6 +36,10 @@ public class CarView implements CarClickListener {
     public SwipeRefreshLayout swipeContainer;
     public ImageButton settingsButton;
 
+    int selectedListNum =0;
+    public static final int ALL_CARS=0;
+    public static final int FAV_CARS=1;
+
     public CarView(LayoutInflater inflater, ViewGroup viewGroup, CarViewModel carViewModel) {
 
         this.carViewModel=carViewModel;
@@ -61,11 +65,12 @@ public class CarView implements CarClickListener {
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_item_color);
 
         spinner.setAdapter(spinnerAdapter);
-
+        favImage.setOnClickListener(myClickListener);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                carViewModel.carSortBy(position);
+           carViewModel.selectedListToBeSorted(position, selectedListNum);
+
             }
 
             @Override
@@ -88,8 +93,8 @@ public class CarView implements CarClickListener {
         @Override
         public void onClick(View v) {
            switch (v.getId()){
-               case R.id.add_to_fav:
-             carViewModel.goToFavorites();
+               case R.id.fav_img:
+           selectedListNum =FAV_CARS;
                    break;
            }
         }
@@ -119,6 +124,7 @@ public class CarView implements CarClickListener {
         if(swipeContainer.isRefreshing()) {
             swipeContainer.setRefreshing(false);
         }
+
         adapter.setCars(carList);
     }
 
