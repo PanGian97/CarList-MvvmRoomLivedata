@@ -39,19 +39,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         carViewModel.saveCarsFromServer();
-        carViewModel.getDataMerger().observe(this, new Observer<List<Car>>() {
+        carViewModel.defaultState();
+        carViewModel.cars().observe(this, new Observer<List<Car>>() {
             @Override
             public void onChanged(List<Car> carList) {
                 carView.render(carList);
             }
         });
 
-        carViewModel.getAllFavCars().observe(this, new Observer<List<Car>>() {
-            @Override
-            public void onChanged(List<Car> carList) {
-                Toast.makeText(MainActivity.this, "Favorites Updated: "+carList.size(), Toast.LENGTH_SHORT).show();
-            }
-        });
+          carViewModel.menuState().observe(this, new Observer<Boolean>() {
+              @Override
+              public void onChanged(Boolean aBoolean) {
+                  carView.showHideMenu(aBoolean);
+              }
+          });
     }
 
     @Override

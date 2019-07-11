@@ -5,7 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import java.util.List;
 
@@ -14,17 +15,42 @@ import pangian.car.carsfinder.CarRepository;
 
 public class CarViewModel extends AndroidViewModel {
 
+    private MutableLiveData<Boolean> menuState = new MutableLiveData<>();
+    private MutableLiveData<Boolean> favState = new MutableLiveData<>();
 
-    private final LiveData<List<Car>> byId;
-    private final LiveData<List<Car>> byHp;
-    private final LiveData<List<Car>> byModel;
+    public void onClicked() {
+        Boolean previous = menuState.getValue();
+
+        if (previous != null) {
+            menuState.setValue(!previous);
+        } else {
+            menuState.setValue(true);
+        }
+    }
+
+    public void favoriteButtonClicked() {
+        Boolean previous = favState.getValue();
+
+        if (previous != null) {
+            favState.setValue(!previous);
+        } else {
+            favState.setValue(true);
+        }
+
+    }
+
+    public LiveData<List<Car>> cars() {
+
+        return Transformations.switchMap(favState, showFavorites -> {
+            if(showFavorites)
+                return repository.getAllFavCars();
+            else
+                return repository.getAllCars();
+        });
+    }
+
     private CarRepository repository;
 
-    private MediatorLiveData<List<Car>> dataMerger = new MediatorLiveData<List<Car>>();
-
-    public LiveData<List<Car>> getAllFavCars() {
-        return repository.getAllFavCars();
-    }
 
     public CarViewModel(@NonNull Application application) {//difference is that we pass application in constructor
         //which we can use for whenever application context is needed
@@ -36,64 +62,29 @@ public class CarViewModel extends AndroidViewModel {
 
         repository = new CarRepository(application);
 
-        byId = repository.getAllCars();//so the activity will have  a reference to viewmodel only and not the repository
-        byHp = repository.getAllCarsByHp();
-        byModel = repository.getAllCarsByModel();
+        // carsToBeShown = repository.getAllCars();//so the activity will have  a reference to viewmodel only and not the repository
+
     }
 
     public void saveCarsFromServer() {
-         repository.saveCarsFromServer();
+        repository.saveCarsFromServer();
     }
 
-
-    public void carSortBy(int position) {
-
-        resetSources();
-
-        switch (position){
-            case 0:defaultListSorter();break;
-            case 1:listSorterByHp();break;
-            case 2:listSorterByModel();break;
-        }
-    }
-
-    private void resetSources() {
-        getDataMerger().removeSource(byId);
-        getDataMerger().removeSource(byModel);
-        getDataMerger().removeSource(byHp);
-    }
-
-
-    public void defaultListSorter() {
-        getDataMerger().addSource(byId,cars ->
-                getDataMerger().setValue(cars));
-    }
-
-    public void listSorterByHp() {
-
-        getDataMerger().addSource(byHp,cars ->
-                getDataMerger().setValue(cars));
-
-    }
-
-    public void listSorterByModel() {
-
-        getDataMerger().addSource(byModel,
-                cars ->
-                        getDataMerger().setValue(cars));
-
-
-    }
-
-
-    public MediatorLiveData<List<Car>> getDataMerger() {
-        return dataMerger;
-    }
 
     public void goToFavorites() {
     }
 
+    public LiveData<Boolean> menuState() {
+        return menuState;
+
+    }
+
     public void updateFavoriteStatus(Car car) {
         repository.updateFavoriteStatus(car);
+    }
+
+    public void defaultState() {
+        menuState.setValue(false);
+        favState.setValue(false);
     }
 }

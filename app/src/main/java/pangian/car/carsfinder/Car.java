@@ -30,11 +30,10 @@ public class Car {//ROOM will generate columns for these fields
 
     private String url;
 
-    //extra value to see if it is favorite
     private boolean isFavorite;
 
 
-    public Car(String id, String brand, String model, String type, String cc, String gears, String horsepower, String url) {
+    public Car(String id, String brand, String model, String type, String cc, String gears, String horsepower, String url,boolean isFavorite) {
 
         this.cc = cc;
         this.horsepower = horsepower;
@@ -44,7 +43,8 @@ public class Car {//ROOM will generate columns for these fields
         this.brand = brand;
         this.gears = gears;
         this.url = url;
-        isFavorite=false;
+        this.isFavorite=isFavorite;
+        setAuto_id(Integer.parseInt(id));
     }
 
     public int getAuto_id() {

@@ -9,7 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface CarsApi {
-    @GET("/a722519e2348c489ace5") //password P...json!....
+    @GET("/api/items/e232d7d6-f948-4a95-8e89-292cd9e3a5d8") //password P...json!....
 
     Call<List<Car>> getAllCarsFromServer();
 }

@@ -31,21 +31,36 @@ public class LocalDataSource {
 
         private SaveToDbASyncTask(CarDao carDaoDb, final List<Car> carList) {
             carDao = carDaoDb;
-            this.carList=carList;
+            this.carList = carList;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
             carDao.deleteAll();
-            carDao.insertAll(carList);
+            insertOrUpdate(carList);
+
 
             return null;
         }
+
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
+
+        }
+
+        private void insertOrUpdate(List<Car> carList) {
+            if (carDao.getAllCars().getValue() == null) {
+                carDao.insertAll(carList);
+            } else {
+                for (int i = 0; i < carList.size(); i++) {
+                    Car car = carList.get(i);
+
+                    carDao.updateCars(car.getId(), car.getCc(), car.getModel(), car.getType(), car.getHorsepower(), car.getBrand(), car.getUrl());
+                }
+            }
 
         }
     }

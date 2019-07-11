@@ -48,7 +48,7 @@ public class CarView implements CarClickListener {
 
         RecyclerView rv = (RecyclerView) findViewById(R.id.recyclerView);
 
-        linearTransContainer=(LinearLayout)findViewById(R.id.linear_layout);
+        linearTransContainer=(LinearLayout)findViewById(R.id.spinner_sort_layout);
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
 
 
@@ -56,6 +56,10 @@ public class CarView implements CarClickListener {
         rv.setLayoutManager(layoutManager);
         adapter = new MyAdapter(this);
         rv.setAdapter(adapter);
+
+
+        favImage.setOnClickListener(myClickListener);
+        settingsButton.setOnClickListener(myClickListener);
 
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(),R.array.filters,R.layout.spinner_selected_text_color);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_item_color);
@@ -65,7 +69,7 @@ public class CarView implements CarClickListener {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                carViewModel.carSortBy(position);
+               // carViewModel.carSortBy(position);
             }
 
             @Override
@@ -87,13 +91,27 @@ public class CarView implements CarClickListener {
     private View.OnClickListener myClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-           switch (v.getId()){
-               case R.id.add_to_fav:
-             carViewModel.goToFavorites();
+           switch (v.getId()) {
+               case R.id.fav_img:
+                   carViewModel.favoriteButtonClicked();
+                   break;
+
+               case R.id.settings:
+                   carViewModel.onClicked();
                    break;
            }
         }
     };
+
+    public void showHideMenu(Boolean isOpen) {
+        if(isOpen){
+            linearTransContainer.setVisibility(View.GONE);
+            favImage.setVisibility(View.GONE);
+        }else{
+            linearTransContainer.setVisibility(View.VISIBLE);
+            favImage.setVisibility(View.VISIBLE);
+        }
+    }
 
 
     @Override
@@ -121,6 +139,8 @@ public class CarView implements CarClickListener {
         }
         adapter.setCars(carList);
     }
+
+
 
 
 //    public void goToFavorites() {

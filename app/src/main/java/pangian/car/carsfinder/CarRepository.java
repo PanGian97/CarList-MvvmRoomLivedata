@@ -39,17 +39,9 @@ public class CarRepository {
     public LiveData<List<Car>> getAllCars() {
         return carDao.getAllCars();
     }
-
-    public LiveData<List<Car>> getAllCarsByHp() {
-        return carDao.getAllCarsByHp();
+    public LiveData<List<Car>> getAllFavCars() {
+        return carDao.getAllFavCars();
     }
-
-    public LiveData<List<Car>> getAllCarsByModel() {
-        return carDao.getAllCarsByModel();
-    }
-
-    public LiveData<List<Car>> getAllFavCars(){return  carDao.getAllFavCars();}
-
 
     public void saveCarsFromServer() {
      if(networkChecker.isNetworkAvailable()) {
@@ -90,7 +82,7 @@ public class CarRepository {
 
         @Override
         protected Void doInBackground(Car... cars) {
-            carDao.favoriteCar(cars[0].getAuto_id());
+            carDao.favoriteCar(Integer.parseInt(cars[0].getId()));
             return null;
         }
     }

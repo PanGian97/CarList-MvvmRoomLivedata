@@ -44,6 +44,7 @@ android:background="@color/BLUE">
 
         </androidx.recyclerview.widget.RecyclerView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     <ImageButton
 
         android:id="@+id/settings"
@@ -51,12 +52,12 @@ android:background="@color/BLUE">
         android:layout_height="48dp"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
         android:src="@drawable/settings_asset"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/linear_layout" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 <ImageButton
     android:background="@android:color/transparent"
@@ -66,12 +67,12 @@ android:background="@color/BLUE">
     android:layout_marginEnd="16dp"
     android:layout_marginBottom="16dp"
     android:layout_weight="1"
-    app:layout_constraintBottom_toTopOf="@+id/linear_layout"
+    app:layout_constraintBottom_toTopOf="@+id/spinner_sort_layout"
     app:layout_constraintEnd_toEndOf="parent"
     app:srcCompat="@drawable/fav_asset" />
 
 <LinearLayout
-    android:id="@+id/linear_layout"
+    android:id="@+id/spinner_sort_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginEnd="16dp"

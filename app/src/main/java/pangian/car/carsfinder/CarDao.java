@@ -28,6 +28,9 @@ public interface CarDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     void insertAll(List<Car> carList);
 
+    @Insert()
+    void insert(Car car);
+
     @Update
     void updateAll(List<Car> carList);
 
@@ -36,20 +39,14 @@ public interface CarDao {
     void deleteAll();
 
     //SORTING ORDER
-    @Query("SELECT * FROM car_table ORDER BY id ASC")
+    @Query("SELECT * FROM car_table ORDER BY auto_id ASC")
     LiveData<List<Car>> getAllCars();
-
-    @Query("SELECT * FROM car_table ORDER BY horsepower  ASC")
-    LiveData<List<Car>> getAllCarsByHp();
-
-    @Query("SELECT * FROM car_table ORDER BY model ASC")
-    LiveData<List<Car>> getAllCarsByModel();
-
-
-    @Query("SELECT * FROM car_table WHERE isFavorite='true' ORDER BY id ASC")
+    @Query("SELECT * FROM car_table WHERE isFavorite='true'ORDER BY auto_id ASC")
     LiveData<List<Car>> getAllFavCars();
 
     @Query("UPDATE car_table SET isFavorite='true' WHERE id=:carId")
-    void favoriteCar(int carId)  ;
+    void favoriteCar(int carId);
 
+    @Query("UPDATE car_table  SET cc=:cc,model=:model,type=:type,horsepower=:horsepower,brand=:brand,url=:url WHERE id=:id")
+    void updateCars(String id,String cc,String model,String type,String horsepower,String brand,String url);
 }

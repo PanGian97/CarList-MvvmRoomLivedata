@@ -10,7 +10,7 @@ public class RetrofitClientInstance {
 
     private static Retrofit retrofit;
     //    private static final String BASE_URL = "https://api.myjson.com";
-    private static final String BASE_URL ="https://api.npoint.io";
+    private static final String BASE_URL ="https://jsonstorage.net";
 
     public static CarsApi getRetrofitInstance() {
 
