@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MVVM.CarDetailsActivity"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTop">
+
+            <!-- cause if we press the close button it will open this activity again(goind onCreate again) -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

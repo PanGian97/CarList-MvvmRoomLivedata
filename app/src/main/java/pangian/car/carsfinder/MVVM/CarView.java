@@ -1,6 +1,9 @@
 package pangian.car.carsfinder.MVVM;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.io.Serializable;
 import java.util.List;
 
 import pangian.car.carsfinder.AdpaterHolder.MyAdapter;
 import pangian.car.carsfinder.Car;
 import pangian.car.carsfinder.CarClickListener;
+import pangian.car.carsfinder.MainActivity;
 import pangian.car.carsfinder.R;
 
 public class CarView implements CarClickListener {
@@ -94,6 +99,7 @@ public class CarView implements CarClickListener {
            switch (v.getId()) {
                case R.id.fav_img:
                    carViewModel.favoriteButtonClicked();
+
                    break;
 
                case R.id.settings:
@@ -119,6 +125,19 @@ public class CarView implements CarClickListener {
        carViewModel.updateFavoriteStatus(car);
     }
 
+    @Override
+    public void onCarClicked(Car car) {
+        Intent intent = new Intent(getContext(),CarDetailsActivity.class);
+//        intent.putExtra("brand",car.getBrand());
+//        intent.putExtra("model",car.getModel());
+//        intent.putExtra("type",car.getType());
+//        intent.putExtra("cc",car.getCc());
+//        intent.putExtra("gears",car.getGears());
+//        intent.putExtra("img_url",car.getUrl());
+        intent.putExtra("car", (Serializable) car);
+        getContext().startActivity(intent);
+    }
+
     private Context getContext() {
         return getRootView().getContext();
     }
@@ -141,6 +160,15 @@ public class CarView implements CarClickListener {
 
     public void refresh() {
 
+    }
+
+    public void isOnFavorites(Boolean isShowingFavCars) {
+        //paint the favorite cars
+        if (isShowingFavCars) {
+            favImage.setColorFilter(Color.argb(255, 255, 255, 255)); // white tint
+        } else if(!isShowingFavCars){
+          favImage.setColorFilter(Color.argb(255, 25, 25, 255));//blue tint
+        }
     }
 
 

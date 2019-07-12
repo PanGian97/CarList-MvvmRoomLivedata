@@ -22,6 +22,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     TextView hpTxt;
     ImageButton favButton;
     ImageView imgView;
+    View detailView;
     private Car car;
 
     public MyViewHolder(@NonNull View itemView , CarClickListener carClickListener) {
@@ -35,11 +36,17 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         gearsTxt=(TextView)itemView.findViewById(R.id.gears);
         hpTxt=(TextView)itemView.findViewById(R.id.hp);
         favButton=(ImageButton)itemView.findViewById(R.id.add_to_fav);
-
+        detailView=(View)itemView.findViewById(R.id.detail_view);
         favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                     carClickListener.onCarFavBtnClicked(car);
+            }
+        });
+        detailView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                carClickListener.onCarClicked(car);
             }
         });
     }

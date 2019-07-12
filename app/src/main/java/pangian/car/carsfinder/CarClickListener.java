@@ -4,4 +4,6 @@ import android.widget.ImageButton;
 
 public interface CarClickListener {
     void onCarFavBtnClicked(Car car);
+
+    void onCarClicked(Car car);
 }

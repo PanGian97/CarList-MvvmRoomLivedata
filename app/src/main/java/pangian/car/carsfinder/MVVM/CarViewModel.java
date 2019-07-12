@@ -17,6 +17,7 @@ public class CarViewModel extends AndroidViewModel {
 
     private MutableLiveData<Boolean> menuState = new MutableLiveData<>();
     private MutableLiveData<Boolean> favState = new MutableLiveData<>();
+    private MutableLiveData<Boolean> showingFavCars = new MutableLiveData<>();
 
     public void onClicked() {
         Boolean previous = menuState.getValue();
@@ -39,15 +40,24 @@ public class CarViewModel extends AndroidViewModel {
 
     }
 
+
+
+
     public LiveData<List<Car>> cars() {
 
         return Transformations.switchMap(favState, showFavorites -> {
-            if(showFavorites)
+            if(showFavorites) {
+                showingFavCars.setValue(true);
                 return repository.getAllFavCars();
-            else
+            }
+            else{
+                showingFavCars.setValue(false);
                 return repository.getAllCars();
+            }
         });
     }
+
+
 
     private CarRepository repository;
 
@@ -70,6 +80,10 @@ public class CarViewModel extends AndroidViewModel {
 
     public LiveData<Boolean> menuState() {
         return menuState;
+
+    }
+    public LiveData<Boolean> showingFavCars() {
+        return showingFavCars;
 
     }
 

@@ -54,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
                   carView.showHideMenu(aBoolean);
               }
           });
+          carViewModel.showingFavCars().observe(this, new Observer<Boolean>() {
+              @Override
+              public void onChanged(Boolean aBoolean) {
+                  carView.isOnFavorites(aBoolean);
+              }
+          });
     }
 
     @Override
