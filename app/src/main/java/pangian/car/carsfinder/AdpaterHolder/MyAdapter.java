@@ -57,7 +57,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         if (cars.get(position).getFavorite()) {
             holder.favButton.setColorFilter(Color.argb(255, 255, 255, 255)); // white tint
             Log.d(TAG, "onBindViewHolder: RecView found favorite " + cars.get(position).getBrand() + "at position :" + cars.get(position));
-        } else {
+        } else if(cars.get(position).getFavorite()==false){
             holder.favButton.setColorFilter(Color.argb(255, 25, 25, 255));//blue tint
         }
 

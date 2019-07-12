@@ -115,7 +115,7 @@ public class CarView implements CarClickListener {
 
 
     @Override
-    public void onCarClicked(Car car) {
+    public void onCarFavBtnClicked(Car car) {
        carViewModel.updateFavoriteStatus(car);
     }
 
@@ -133,14 +133,15 @@ public class CarView implements CarClickListener {
     }
 
     public void render(List<Car> carList) {
-
         if(swipeContainer.isRefreshing()) {
             swipeContainer.setRefreshing(false);
         }
         adapter.setCars(carList);
     }
 
+    public void refresh() {
 
+    }
 
 
 //    public void goToFavorites() {

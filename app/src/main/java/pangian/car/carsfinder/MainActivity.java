@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<Car> carList) {
                 carView.render(carList);
+                carView.refresh();
             }
         });
 

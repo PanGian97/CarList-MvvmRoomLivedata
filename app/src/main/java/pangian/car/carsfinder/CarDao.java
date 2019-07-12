@@ -41,12 +41,23 @@ public interface CarDao {
     //SORTING ORDER
     @Query("SELECT * FROM car_table ORDER BY auto_id ASC")
     LiveData<List<Car>> getAllCars();
-    @Query("SELECT * FROM car_table WHERE isFavorite='true'ORDER BY auto_id ASC")
-    LiveData<List<Car>> getAllFavCars();
 
-    @Query("UPDATE car_table SET isFavorite='true' WHERE id=:carId")
-    void favoriteCar(int carId);
+    @Query("SELECT * FROM car_table WHERE isFavorite=:favState ORDER BY auto_id ASC")
+    LiveData<List<Car>> getAllFavCars(boolean favState);
+
+    @Query("UPDATE car_table SET isFavorite=:favState WHERE id=:carId")
+    void favoriteCar(int carId,boolean favState);
+
+   @Query("SELECT COUNT(*) FROM car_table WHERE auto_id=:auto_id AND isFavorite=:isFav  ")
+      int isCarFavorite(int auto_id,boolean isFav );
+
+
 
     @Query("UPDATE car_table  SET cc=:cc,model=:model,type=:type,horsepower=:horsepower,brand=:brand,url=:url WHERE id=:id")
     void updateCars(String id,String cc,String model,String type,String horsepower,String brand,String url);
+
+    @Query("SELECT COUNT(id) FROM car_table")
+    int getDataSize();
+
+
 }

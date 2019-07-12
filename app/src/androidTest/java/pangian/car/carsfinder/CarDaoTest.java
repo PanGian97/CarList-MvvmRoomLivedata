@@ -43,7 +43,7 @@ public class CarDaoTest {
    @Test
     public void insertACarAndThenReadIt()
    {
-       Car car = new Car("1", "mitsos", "mitsos","mitsos","mitsos","mitsos","mitsos","mitsos");
+       Car car = new Car("1", "mitsos", "mitsos","mitsos","mitsos","mitsos","mitsos","mitsos","false");
 
        carDao.insert(car);
 
@@ -57,7 +57,7 @@ public class CarDaoTest {
     public void getAllCarsByHp()
    {    List<Car> cars= new ArrayList<>();
 
-       Car car = new Car("1", "mitsos", "panais","mitsos","mitsos","mitsos","100","mitsos");
+       Car car = new Car("1", "mitsos", "panais","mitsos","mitsos","mitsos","100","mitsos","false");
        cars.add(car);
        Car car2 = new Car("2", "mitsos", "mitsos","mitsos","mitsos","mitsos","1","mitsos");
        cars.add(car2);

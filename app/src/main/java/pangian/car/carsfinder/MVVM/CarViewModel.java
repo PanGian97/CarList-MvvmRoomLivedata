@@ -59,19 +59,13 @@ public class CarViewModel extends AndroidViewModel {
         //we have a memory leak
         super(application);
 
-
         repository = new CarRepository(application);
 
-        // carsToBeShown = repository.getAllCars();//so the activity will have  a reference to viewmodel only and not the repository
 
     }
 
     public void saveCarsFromServer() {
         repository.saveCarsFromServer();
-    }
-
-
-    public void goToFavorites() {
     }
 
     public LiveData<Boolean> menuState() {

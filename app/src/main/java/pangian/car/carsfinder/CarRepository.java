@@ -40,7 +40,7 @@ public class CarRepository {
         return carDao.getAllCars();
     }
     public LiveData<List<Car>> getAllFavCars() {
-        return carDao.getAllFavCars();
+        return carDao.getAllFavCars(true);//BUG: if i make it true on Query it doesnt work e.g(isFavorite='true')
     }
 
     public void saveCarsFromServer() {
@@ -82,7 +82,11 @@ public class CarRepository {
 
         @Override
         protected Void doInBackground(Car... cars) {
-            carDao.favoriteCar(Integer.parseInt(cars[0].getId()));
+            if(carDao.isCarFavorite(cars[0].getAuto_id(),true)==0) {
+                carDao.favoriteCar(Integer.parseInt(cars[0].getId()),true);
+            }
+            else if(carDao.isCarFavorite(cars[0].getAuto_id(),true)==1)
+            {  carDao.favoriteCar(Integer.parseInt(cars[0].getId()),false);}
             return null;
         }
     }

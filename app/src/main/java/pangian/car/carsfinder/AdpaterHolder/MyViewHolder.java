@@ -39,7 +39,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    carClickListener.onCarClicked(car);
+                    carClickListener.onCarFavBtnClicked(car);
             }
         });
     }
